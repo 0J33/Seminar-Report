@@ -1,0 +1,297 @@
+
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads]{llncs}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+\usepackage{url}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{On the Difference between Updating a Knowledge Base and Revising It}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{On the Difference between Updating a
+Knowledge Base and Revising It}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Omar Gamal Eldin Gamal Ahmed\\ 
+52-9805}
+%
+\authorrunning{Omar Gamal}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next
+\institute{German University in Cairo\\
+Seminar on Rational Belief Change\\
+\url{omar.gamalahmed@student.guc.edu.eg}}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+\toctitle{On the Difference between Updating a
+Knowledge Base and Revising It}
+\tocauthor{Omar Gamal}
+\maketitle
+
+
+\begin{abstract}
+This report examines the distinction between belief revision and belief update as proposed by Katsuno and Mendelzon. The paper formalizes two different approaches to knowledge base change: revision, where the world is assumed to remain static and the knowledge base adapts; and update, where the world itself may change. Through a comparison of the axiomatic and semantic frameworks, this report outlines the conditions that characterize each operation, including Winslett’s Possible Models Approach. The contrast between global (revision) and local (update) change is highlighted, with additional discussion on how these operations apply to reasoning about action.
+\keywords{Belief change, Belief revision, Belief update, Katsuno-Mendelzon, Winslett, Rational agents, Knowledge representation}
+\end{abstract}
+
+\section{Introduction}
+
+Belief change is a fundamental aspect of intelligent reasoning, allowing agents to accommodate new information or respond to changes in the world. Katsuno and Mendelzon distinguish two core types of belief change: \emph{revision}, where a knowledge base is adjusted to integrate new but possibly conflicting information under the assumption of a static world; and \emph{update}, which captures changes in the world itself, requiring the knowledge base to reflect these dynamic transitions \cite{katsuno}.
+
+This report outlines the key formal and intuitive differences between belief revision and belief update, as discussed in the seminar. It highlights their respective axioms, semantic characterizations, and applications in reasoning about action. Special emphasis is placed on Winslett’s framework and the comparative behavior of each operation under various logical scenarios.
+
+\section{Preliminaries}
+
+The belief change operations studied by Katsuno and Mendelzon are defined over a \emph{finitary propositional language} \( L \), built from a finite set \( \Xi \) of propositional variables. A \emph{knowledge base} \( \psi \) is a formula in this language representing the agent’s current beliefs.
+
+An \emph{interpretation} is a mapping \( I: \Xi \rightarrow \{T, F\} \), assigning a truth value to each propositional letter. A formula \( \psi \) is satisfied by an interpretation \( I \) if \( I \) makes \( \psi \) true. The set of all such satisfying interpretations is denoted \( \text{Mod}(\psi) \), the \emph{models} of \( \psi \).
+
+A formula is called \emph{inconsistent} if it has no models, i.e., \( \text{Mod}(\psi) = \emptyset \). A formula \( \phi \) is \emph{complete} if, for every formula \( \mu \), either \( \phi \rightarrow \mu \) or \( \phi \rightarrow \neg \mu \) holds.
+
+This semantic foundation allows for the rigorous formulation of belief revision and update operators, which are discussed in the following sections.
+
+\section{Belief Revision and the AGM Postulates}
+
+Belief revision addresses how a rational agent should update its knowledge base \( \psi \) upon receiving new information \( \mu \), assuming the world is static \cite{katsuno}. The result of revising \( \psi \) by \( \mu \) is denoted \( \psi \circ \mu \).
+
+\subsection{AGM Postulates}
+
+The AGM framework characterizes revision through six rationality postulates:
+
+\begin{itemize}
+    \item \textbf{R1 (Success):} \( \psi \circ \mu \models \mu \)
+    \item \textbf{R2 (Vacuity):} If \( \psi \land \mu \) is satisfiable, then \( \psi \circ \mu \equiv \psi \land \mu \)
+    \item \textbf{R3 (Consistency):} If \( \mu \) is satisfiable, then \( \psi \circ \mu \) is satisfiable
+    \item \textbf{R4 (Extensionality):} If \( \psi \equiv \psi' \) and \( \mu \equiv \mu' \), then \( \psi \circ \mu \equiv \psi' \circ \mu' \)
+    \item \textbf{R5 (Superexpansion):} \( (\psi \circ \mu) \land \phi \models \psi \circ (\mu \land \phi) \)
+    \item \textbf{R6 (Subexpansion):} If \( (\psi \circ \mu) \land \phi \) is satisfiable, then \( \psi \circ (\mu \land \phi) \models (\psi \circ \mu) \land \phi \)
+\end{itemize}
+
+Postulates R5 and R6 reflect the intuition that revision should be accomplished with minimal change to the original knowledge base.
+
+\subsection{Semantic Characterization}
+
+A revision operator \( \circ \) satisfies postulates R1–R6 if and only if there exists a total preorder \( \leq_\psi \) over interpretations such that:
+\[
+\text{Mod}(\psi \circ \mu) = \text{Min}(\text{Mod}(\mu), \leq_\psi)
+\]
+This means that the revised belief state consists of the most preferred models of \( \mu \), as determined by the preorder \( \leq_\psi \).
+
+The mapping from \( \psi \) to \( \leq_\psi \) is called a \emph{faithful assignment} and must satisfy:
+\begin{itemize}
+    \item If \( I, I' \in \text{Mod}(\psi) \), then neither is strictly preferred over the other
+    \item If \( I \in \text{Mod}(\psi) \) and \( I' \notin \text{Mod}(\psi) \), then \( I <_\psi I' \)
+    \item If \( \psi \equiv \psi' \), then \( \leq_\psi = \leq_{\psi'} \)
+\end{itemize}
+
+\section{Belief Update and the PMA Framework}
+
+Belief update refers to modifying a knowledge base \( \psi \) in light of a change in the world, represented by a new sentence \( \mu \). The result is written \( \psi \diamond \mu \). Unlike revision, which assumes a static world, update assumes the world itself has changed.
+
+\subsection{Update Postulates}
+
+Katsuno and Mendelzon identify eight rationality postulates for update \cite{katsuno}:
+
+\begin{itemize}
+    \item \textbf{U1 (Success):} \( \psi \diamond \mu \models \mu \)
+    \item \textbf{U2 (Vacuity):} If \( \psi \models \mu \), then \( \psi \diamond \mu \equiv \psi \)
+    \item \textbf{U3 (Consistency):} If both \( \psi \) and \( \mu \) are satisfiable, then \( \psi \diamond \mu \) is satisfiable
+    \item \textbf{U4 (Extensionality):} If \( \psi_1 \equiv \psi_2 \) and \( \mu_1 \equiv \mu_2 \), then \( \psi_1 \diamond \mu_1 \equiv \psi_2 \diamond \mu_2 \)
+    \item \textbf{U5 (Superexpansion):} \( (\psi \diamond \mu) \land \phi \models \psi \diamond (\mu \land \phi) \)
+    \item \textbf{U6 (Mutual Entailment):} If \( \psi \diamond \mu_1 \models \mu_2 \) and \( \psi \diamond \mu_2 \models \mu_1 \), then \( \psi \diamond \mu_1 \equiv \psi \diamond \mu_2 \)
+    \item \textbf{U7 (Disjunction for Complete Bases):} If \( \psi \) is complete, then \( (\psi \diamond \mu_1) \land (\psi \diamond \mu_2) \models \psi \diamond (\mu_1 \lor \mu_2) \)
+    \item \textbf{U8 (Disjunction):} \( (\psi_1 \lor \psi_2) \diamond \mu \equiv (\psi_1 \diamond \mu) \lor (\psi_2 \diamond \mu) \)
+\end{itemize}
+
+\subsection{Possible Models Approach (Winslett)}
+
+Update is semantically defined using Winslett’s \emph{Possible Models Approach (PMA)}. The idea is to apply minimal change to each model \( I \in \text{Mod}(\psi) \), producing models of \( \mu \) that are “closest” to \( I \) by altering as few truth values as possible.
+
+The difference between interpretations \( I \) and \( J \) is:
+\[
+\text{Diff}(I, J) = \{ p \in \Xi \mid I(p) \neq J(p) \}
+\]
+Given \( I \), we define a preference \( \leq^{\text{PMA}}_I \) such that \( J_1 \leq^{\text{PMA}}_I J_2 \) iff \( \text{Diff}(I, J_1) \subseteq \text{Diff}(I, J_2) \).
+
+The result of updating \( \psi \) by \( \mu \) is:
+\[
+\text{Mod}(\psi \diamond \mu) = \bigcup_{I \in \text{Mod}(\psi)} \text{Min}(\text{Mod}(\mu), \leq^{\text{PMA}}_I)
+\]
+
+\subsection{Semantic Characterization}
+
+Update operators satisfying U1–U8 can be characterized via a \emph{faithful assignment} that maps each interpretation \( I \) to a partial preorder \( \leq_I \) over interpretations. The updated knowledge base then consists of:
+\[
+\text{Mod}(\psi \diamond \mu) = \bigcup_{I \in \text{Mod}(\psi)} \text{Min}(\text{Mod}(\mu), \leq_I)
+\]
+
+This local, model-by-model comparison contrasts with revision’s global preordering, a key distinction discussed in the next section.
+
+\section{Reasoning About Action}
+
+Belief update provides a foundation for modeling the effects of actions in dynamic systems. Winslett’s framework captures actions as pairs \( (\alpha, \beta) \), where \( \alpha \) is the \emph{precondition} and \( \beta \) is the \emph{postcondition}. The precondition specifies what must be true for the action to be executable, and the postcondition specifies the direct effects of executing the action.
+
+Let \( \psi \) be the current knowledge base. The effect of executing an action \( (\alpha, \beta) \) is defined as:
+\[
+\psi' =
+\begin{cases}
+\psi, & \text{if } \psi \not\models \alpha \\
+\psi \diamond \beta, & \text{otherwise}
+\end{cases}
+\]
+
+Here, the update operator \( \diamond \) is used to reflect the change in the world due to the action.
+
+\subsection{Generalized Update via Revision and Contraction}
+
+The framework can be refined to handle cases where the truth of the precondition is uncertain or violated:
+\[
+\psi' =
+\begin{cases}
+(\psi \circ \alpha) \diamond \beta, & \text{if } \psi \models \alpha \\
+\psi \circ \neg \alpha, & \text{if } \psi \models \neg \alpha \\
+\psi \bullet \alpha, & \text{otherwise}
+\end{cases}
+\]
+
+Here:
+\begin{itemize}
+    \item \( \psi \circ \alpha \) is a revision to make \( \alpha \) true.
+    \item \( \psi \bullet \alpha \) is a contraction to remove commitment to \( \alpha \).
+\end{itemize}
+
+This extension allows for more realistic modeling of belief change in action domains, accommodating uncertainty and conflicting evidence in the execution context \cite{katsuno}.
+
+\section{Contraction and Erasure}
+
+Belief contraction is the process of removing a sentence \( \mu \) from a knowledge base \( \psi \), yielding a new knowledge base \( \psi \bullet \mu \) that no longer entails \( \mu \). In contrast, \emph{erasure} reflects changes in the world such that \( \mu \) is no longer true, resulting in \( \psi \lozenge \mu \).
+
+\subsection{Contraction}
+
+Katsuno and Mendelzon describe contraction using the following rationality postulates:
+
+\begin{itemize}
+    \item \textbf{C1:} \( \psi \models \psi \bullet \mu \)
+    \item \textbf{C2:} If \( \psi \not\models \mu \), then \( \psi \bullet \mu \equiv \psi \)
+    \item \textbf{C3:} If \( \mu \) is not a tautology, then \( \psi \bullet \mu \not\models \mu \)
+    \item \textbf{C4:} If \( \psi_1 \equiv \psi_2 \) and \( \mu_1 \equiv \mu_2 \), then \( \psi_1 \bullet \mu_1 \equiv \psi_2 \bullet \mu_2 \)
+    \item \textbf{C5:} \( (\psi \bullet \mu) \land \mu \models \psi \)
+\end{itemize}
+
+\subsection{Erasure}
+
+Erasure is to update what contraction is to revision. Given an update operator \( \diamond \), the corresponding erasure operator \( \lozenge \) can be defined as:
+\[
+\psi \lozenge \mu \equiv \psi \lor (\psi \diamond \neg \mu)
+\]
+
+An erasure operator \( \lozenge \) satisfies the following postulates:
+
+\begin{itemize}
+    \item \textbf{E1:} \( \psi \models \psi \lozenge \mu \)
+    \item \textbf{E2:} If \( \psi \models \neg \mu \), then \( \psi \lozenge \mu \equiv \psi \)
+    \item \textbf{E3:} If \( \psi \) is satisfiable and \( \mu \) is not a tautology, then \( \psi \lozenge \mu \not\models \mu \)
+    \item \textbf{E4:} If \( \psi_1 \equiv \psi_2 \) and \( \mu_1 \equiv \mu_2 \), then \( \psi_1 \lozenge \mu_1 \equiv \psi_2 \lozenge \mu_2 \)
+    \item \textbf{E5:} \( (\psi \lozenge \mu) \land \mu \models \psi \)
+    \item \textbf{E8:} \( (\psi_1 \lor \psi_2) \lozenge \mu \equiv (\psi_1 \lozenge \mu) \lor (\psi_2 \lozenge \mu) \)
+\end{itemize}
+
+\subsection{Relationship with Revision and Update}
+
+The contraction and erasure operators are closely related to revision and update. Katsuno and Mendelzon provide the following duality theorems:
+
+\begin{itemize}
+    \item Given a revision operator \( \circ \) that satisfies R1–R4, we can define:
+    \[
+    \psi \bullet \mu \equiv \psi \lor (\psi \circ \neg \mu)
+    \]
+    \item Conversely, given a contraction operator \( \bullet \) that satisfies C1–C4:
+    \[
+    \psi \circ \mu \equiv (\psi \bullet \neg \mu) \land \mu
+    \]
+    \item Similarly, for update and erasure:
+    \[
+    \psi \lozenge \mu \equiv \psi \lor (\psi \diamond \neg \mu)
+    \quad \text{and} \quad
+    \psi \diamond \mu \equiv (\psi \lozenge \neg \mu) \land \mu
+    \]
+\end{itemize}
+
+These identities illustrate the symmetry between belief removal and belief incorporation under both static and dynamic assumptions about the world.
+
+\section{Time, Revision, and Update}
+
+Katsuno and Mendelzon unify revision and update by introducing a temporal framework \cite{katsuno}. Each belief change operation is associated with a time point, making it possible to determine whether revision or update is appropriate based on when the information is received.
+
+Let \( \langle \psi, t \rangle \) represent a knowledge base \( \psi \) at time \( t \). A new piece of information \( \mu \) is received at time \( t' \). The application of the belief change operator depends on whether \( t' = t \) or \( t' > t \):
+
+\[
+\langle \psi, t \rangle \boxplus \text{Tell}(\mu, t') =
+\begin{cases}
+\langle \psi \circ \mu, t \rangle, & \text{if } t' = t \\
+\langle \psi \diamond \mu, t' \rangle, & \text{if } t' > t
+\end{cases}
+\]
+
+If the new information refers to the same time point \( t \), revision is used since it reflects a reinterpretation of past or static information. If the information concerns a future time \( t' > t \), update is appropriate because it reflects a change in the state of the world over time.
+
+This approach allows both operators to coexist in a single formal framework, guided by temporal context.
+
+\section{Conclusion}
+
+This report outlined the distinction between belief revision and belief update as presented by Katsuno and Mendelzon. Revision captures changes in belief under a static worldview, relying on a total preorder over interpretations, while update models dynamic changes in the world using local, model-specific preferences. Both operations are axiomatized and semantically characterized through faithful assignments.
+
+The framework further extends to reasoning about action and incorporates contraction and erasure as duals of revision and update, respectively. By introducing a temporal unification, Katsuno and Mendelzon provide a principled basis for choosing the appropriate operation depending on whether new information reflects reinterpretation or change over time.
+
+Overall, the Katsuno-Mendelzon framework presents a foundational theory of rational belief change, with wide applicability in artificial intelligence and knowledge representation \cite{katsuno}.
+
+\begin{thebibliography}{1}
+
+\bibitem{katsuno}
+Katsuno, H., Mendelzon, A.O.:
+On the Difference Between Updating a Knowledge Base and Revising It.
+In: Katsuno, H., Mendelzon, A.O. (eds.) \textit{Belief Revision}, pp.~183--203.
+Cambridge University Press, Cambridge (1992)
+
+\end{thebibliography}
+
+\end{document}
